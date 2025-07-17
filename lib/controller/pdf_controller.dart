@@ -13,16 +13,17 @@ import 'package:share_plus/share_plus.dart';
 
 class PdfController extends GetxController {
   final user = UserModel(name: 'John Doe', email: 'john@example.com');
-  final items = <ItemModel>[
-    ItemModel(desc: "Apple", qty: 3, rate: 2.5),
-    ItemModel(desc: "Orange", qty: 5, rate: 1.75),
-    ItemModel(desc: "Banana", qty: 2, rate: 1.2),
-  ].obs;
+  final items =
+      <ItemModel>[
+        ItemModel(desc: "Apple", qty: 3, rate: 2.5),
+        ItemModel(desc: "Orange", qty: 5, rate: 1.75),
+        ItemModel(desc: "Banana", qty: 2, rate: 1.2),
+      ].obs;
 
   Future<Uint8List> generatePdf() async {
     final pdf = pw.Document();
 
-    final logoBytes = await rootBundle.load('assets/icon.png');
+    final logoBytes = await rootBundle.load('assets/icon_baby.png');
     final logoImage = pw.MemoryImage(logoBytes.buffer.asUint8List());
 
     pdf.addPage(
@@ -34,36 +35,47 @@ class PdfController extends GetxController {
             children: [
               pw.Center(child: pw.Image(logoImage, height: 80)),
               pw.Center(
-      child: pw.Container(
-        width: 80,
-        height: 80,
-        decoration: pw.BoxDecoration(
-          color: PdfColors.blueGrey,
-          shape: pw.BoxShape.circle,
-        ),
-        alignment: pw.Alignment.center,
-        child: pw.Text(
-          'YA',
-          style: pw.TextStyle(
-            color: PdfColors.white,
-            fontSize: 28,
-            fontWeight: pw.FontWeight.bold,
-          ),
-        ),
-      ),
-    ),
+                child: pw.Container(
+                  width: 90,
+                  height: 90,
+                  decoration: pw.BoxDecoration(
+                    color: PdfColors.blueGrey,
+                    shape: pw.BoxShape.circle,
+                  ),
+                  alignment: pw.Alignment.center,
+                  child: pw.Text(
+                    'Baby',
+                    style: pw.TextStyle(
+                      color: PdfColors.white,
+                      fontSize: 28,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
               pw.SizedBox(height: 20),
-              pw.Text('Sales Invoice', style: pw.TextStyle(fontSize: 22, fontWeight: pw.FontWeight.bold)),
+              pw.Text(
+                'Sales Invoice',
+                style: pw.TextStyle(
+                  fontSize: 22,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
               pw.Text('Generated with Flutter + GetX'),
               pw.SizedBox(height: 20),
               pw.Table.fromTextArray(
                 headers: ['Item', 'Qty', 'Price', 'Total'],
-                data: items.map((i) => [
-                  i.desc,
-                  i.qty.toString(),
-                  i.rate.toStringAsFixed(2),
-                  i.total.toStringAsFixed(2),
-                ]).toList(),
+                data:
+                    items
+                        .map(
+                          (i) => [
+                            i.desc,
+                            i.qty.toString(),
+                            i.rate.toStringAsFixed(2),
+                            i.total.toStringAsFixed(2),
+                          ],
+                        )
+                        .toList(),
               ),
               pw.SizedBox(height: 12),
               pw.Row(
@@ -71,8 +83,11 @@ class PdfController extends GetxController {
                 children: [
                   pw.Text(
                     'Grand Total: RM ${items.map((i) => i.total).reduce((a, b) => a + b).toStringAsFixed(2)}',
-                    style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
-                  )
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ],
